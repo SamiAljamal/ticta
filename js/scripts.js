@@ -1,30 +1,29 @@
-function turn(turn){
-  this.playerTurn=turn;
+function turn(turn,type,color){
+  this.playerTurn = turn;
+  this.playerType = type;
+  this.playerColor = color;
 };
 
-turn.prototype.mark = function(turn){
-  return this.playerTurn=false;
+turn.prototype.pTurn = function(){
+  this.playerTurn = !this.playerTurn;
 }
 
-var player1 = new turn(true);
-var player2 = new turn(false);
+var player1 = new turn(true,"x","blue");
+var player2 = new turn(false,"o","red");
 
+var players = [player1,player2];
 
 $(document).ready(function(){
-  var playerTurn = true;
-    $("td").click(function(){
-      if (playerTurn === false){
-        $("td").click(function(){
-          $(this).text("o");
-          playerTurn= true;
-          console.log(playerTurn);
-        });
-      }
-      else{
-        $(this).text("x");
-        playerTurn= false;
+  $("td").click(function(){
+    var square = this;
+    players.forEach(function(x){
+      if (x.playerTurn === true){
+        $(square).text(x.playerType);
+        $("body").css("background-color", x.playerColor)
+        player1.pTurn();
+        player2.pTurn();
         console.log(playerTurn);
       }
     });
-
+  });
 });
